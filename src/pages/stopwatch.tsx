@@ -13,26 +13,26 @@ const Stopwatch = () => {
   const { dataList, setDataList, deleteData } = useDataList([]);
 
   useEffect(() => {
-    let intervalId;
+    let intervalId: any;
     if (isRunning) {
       intervalId = setInterval(() => setTime(time + 1), 10);
     }
     return () => clearInterval(intervalId);
   }, [isRunning, time]);
 
-  const getTime = (value) => {
+  const getTime = (value: number) => {
     return Math.floor(value).toString().padStart(2, '0');
   };
-  const getHours = (value) => {
+  const getHours = (value: number) => {
     return getTime(value / 360000);
   };
-  const getMinutes = (value) => {
+  const getMinutes = (value: number) => {
     return getTime((value % 360000) / 6000);
   };
-  const getSeconds = (value) => {
+  const getSeconds = (value: number) => {
     return getTime((value % 6000) / 100);
   };
-  const getMilliseconds = (value) => {
+  const getMilliseconds = (value: number) => {
     return getTime(value % 100);
   };
 
@@ -59,8 +59,7 @@ const Stopwatch = () => {
     setDataList([...dataList, time]);
   };
 
-  const savedHandler = useRef();
-  savedHandler.current = (event) => {
+  const savedHandler = useRef((event: any) => {
     switch (event.code) {
       case KEY_S:
         startStop();
@@ -75,10 +74,10 @@ const Stopwatch = () => {
       default:
         return false;
     }
-  };
+  });
 
   useEffect(() => {
-    const eventListener = (event) => savedHandler.current(event);
+    const eventListener = (event: any) => savedHandler.current(event);
     const isSupported = window.addEventListener;
     if (!isSupported) return;
     window.addEventListener('keydown', eventListener);
