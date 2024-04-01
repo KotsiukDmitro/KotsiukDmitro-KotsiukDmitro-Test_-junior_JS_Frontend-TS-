@@ -1,22 +1,22 @@
 import React from 'react';
 import { useState } from 'react';
+import { iErrors, iForm } from '../common/models';
 import './pages.css';
 
 const Form = () => {
   const listEmail = ['facebook@i.ua', 'instagram@i.ua', 'mymail@i.ua'];
 
-  const [error, setError] = useState({});
+  const [error, setError] = useState<iErrors>({});
 
   // Валидация применяется при отправке формы
 
-  const submit = (event) => {
+  const submit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const errors = {};
+    const errors: iErrors = {};
     if (change.firstName === '') {
       errors.firstName = 'Поле не может быть пустым';
     }
-
     if (change.password.length < 8) {
       errors.password = 'Поле не может быть пустым и должно содержать не менее 8 символов';
     }
@@ -31,15 +31,12 @@ const Form = () => {
     if (!emailValid) {
       errors.email = 'Поле не заполнено либо заполнено не верно';
     }
-
     if (listEmail.includes(change.email)) {
       errors.email = 'Email не уникальный';
     }
-
     if (!change.nda) {
       errors.nda = true;
     }
-
     setError(errors);
     if (Object.keys(error).length) {
       alert('форма не отправленна, заполните обязательные поля');
@@ -47,17 +44,17 @@ const Form = () => {
     }
   };
 
-  const form = {
+  const form: iForm = {
     firstName: '',
     lastName: '',
     email: '',
     password: '',
-    nda: ''
+    nda: false
   };
 
   let [change, setChange] = useState(form);
 
-  const inputChange = (event) => {
+  const inputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
     const name = event.target.name;
     setChange({ ...change, [name]: value });
